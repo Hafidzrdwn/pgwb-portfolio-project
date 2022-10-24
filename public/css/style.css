@@ -1,0 +1,64 @@
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+* {
+    font-family: "Montserrat", sans-serif;
+}
+
+h2 {
+    font-weight: 600;
+}
+
+.jumbotron {
+    padding-top: 2.2rem;
+}
+
+.row.icons i.icon1,
+.row.icons i.icon2,
+.row.icons i.icon3 {
+    font-size: 30px;
+    color: #212529d2;
+    transition: 0.4s all;
+}
+.row.icons i.icon1:hover {
+    transform: translateY(-15px) scale(1.1);
+    color: #bc2a8d;
+}
+.row.icons i.icon2:hover {
+    transform: translateY(-15px) scale(1.1);
+    color: #0077b5;
+}
+.row.icons i.icon3:hover {
+    transform: translateY(-15px) scale(1.1);
+    color: #333;
+}
+
+.jumbotron,
+#services,
+#projects {
+    background-color: #e2edff;
+}
+.card-skill {
+    background-color: #212529;
+    cursor: pointer;
+    transition: 0.4s all;
+}
+.card-skill:hover {
+    background-color: #333;
+    border: 1px solid #e2edff;
+}
+.card-text {
+    font-size: 14px;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: #212529;
+    color: #fff;
+}
+
+@media (max-width: 575.98px) {
+    .lead {
+        font-size: 15px;
+    }
+}
