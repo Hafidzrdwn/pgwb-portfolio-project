@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('image')->default('default.jpg');
+            $table->string('role')->default('admin');
             $table->rememberToken();
             $table->timestamps();
         });
