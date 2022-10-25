@@ -45,8 +45,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 Route::post('/logout', 'AuthController@logout')->name('logout');
 
 Route::middleware('guest')->group(function () {
-    // Route::get('/register', 'AuthController@register')->name('register');
+    Route::get('/register', 'AuthController@register')->name('register');
     Route::get('/login', 'AuthController@login')->name('login');
-    // Route::post('/registration', 'AuthController@registration')->name('registration');
+    Route::post('/registration', 'AuthController@registration')->name('registration');
     Route::post('/authenticate', 'AuthController@authenticate')->name('authenticate');
 });
