@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="card-body text-center">
-        <div class="mx-auto rounded-circle" style="height: 200px; width: 200px; background: url({{ asset('images/admin/' . $siswa->foto) }}); background-size: cover; background-position: center center;"></div>
+        <div class="mx-auto rounded-circle" style="height: 200px; width: 200px; background: url('{{ asset('images/admin/' . $siswa->foto) }}'); background-size: cover; background-position: center center;"></div>
         <h4 class="text-dark font-weight-bold mt-3">{{ Str::title($siswa->nama) }}</h4>
         <p>Nisn : {{ $siswa->nisn }}</p>
         <p class="text-dark">@if($siswa->jenis_kelamin == "Laki-laki") <i class="fas fa-mars text-primary mr-1"></i> @else <i class="fas fa-venus text-danger mr-1"></i> @endif{{ $siswa->jenis_kelamin }}</p>
