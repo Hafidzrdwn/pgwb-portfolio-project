@@ -72,10 +72,23 @@ class ProjekController extends Controller
         $validatedData = $request->validate($rules, $this->messages);
 
         $validatedData['siswa_id'] = $request->siswa_id;
-        $validatedData['foto'] = ($request->file('foto')) ? $request->file('foto')->store('masterproject-images') : "photo.jpg";
         $validatedData['link'] = ($link = $request->link) ? $link : "";
         $validatedData['tanggal'] = Carbon::now()->format('Y-m-d');
 
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $foto = time() . "_" . $file->getClientOriginalName();
+            $save_db_foto = 'masterproject/' . $foto;
+
+            $dir = public_path('images/admin/masterproject');
+            if (!file_exists($dir)) mkdir($dir);
+
+            $file->move($dir, $foto);
+        } else {
+            $save_db_foto = 'photo.jpg';
+        }
+
+        $validatedData['foto'] = $save_db_foto;
         Projek::create($validatedData);
         return redirect()->route('projek.index')->with('success', 'Project baru berhasil ditambahkan!');
     }
@@ -147,10 +160,18 @@ class ProjekController extends Controller
         if ($newFoto) {
             // jika Tidak Kosong, maka dihapus
             if ($projek->foto !== "photo.jpg") {
-                // Hapus Foto Tempat
-                Storage::delete($projek->foto);
+                // Hapus Foto Projek
+                $old_foto = public_path('images/admin/' . $projek->foto);
+                if (file_exists($old_foto)) unlink($old_foto);
             }
-            $data['foto'] = $newFoto->store('masterproject-images');
+
+            $foto = time() . "_" . $newFoto->getClientOriginalName();
+            $save_db_foto = 'masterproject/' . $foto;
+
+            $dir = public_path('images/admin/masterproject');
+            $newFoto->move($dir, $foto);
+
+            $data['foto'] = $save_db_foto;
         }
 
         $projek->update($data);
@@ -170,7 +191,10 @@ class ProjekController extends Controller
         $siswa = $projek->siswa->nama;
 
         // Hapus Foto
-        if ($foto !== "photo.jpg") Storage::delete($foto);
+        if ($foto !== "photo.jpg") {
+            $old_foto = public_path('images/admin/' . $foto);
+            if (file_exists($old_foto)) unlink($old_foto);
+        };
         $projek->delete();
 
         return redirect()->route('projek.index')->with('success', "Projek ($nama) milik $siswa Telah berhasil dihapus!");

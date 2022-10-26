@@ -67,7 +67,20 @@ class SiswaController extends Controller
         ], $this->messages);
 
 
-        $validatedData['foto'] = ($request->file('foto')) ? $request->file('foto')->store('mastersiswa-images') : "default.jpg";
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $foto = time() . "_" . $file->getClientOriginalName();
+            $save_db_foto = 'mastersiswa/' . $foto;
+
+            $dir = public_path('images/admin/mastersiswa');
+            if (!file_exists($dir)) mkdir($dir);
+
+            $file->move($dir, $foto);
+        } else {
+            $save_db_foto = 'default.jpg';
+        }
+
+        $validatedData['foto'] = $save_db_foto;
 
         Siswa::create($validatedData);
         return redirect()->route('siswa.index')->with('success', '<strong>Horee</strong> , Data Siswa berhasil ditambahkan!!');
@@ -121,8 +134,19 @@ class SiswaController extends Controller
         $validatedData = $request->validate($rules, $this->messages);
 
         if ($request->file('foto')) {
-            if ($siswa->foto != 'default.jpg') Storage::delete($siswa->foto);
-            $validatedData['foto'] = $request->file('foto')->store('mastersiswa-images');
+            if ($siswa->foto != 'default.jpg') {
+                $old_foto = public_path('images/admin/' . $siswa->foto);
+                if (file_exists($old_foto)) unlink($old_foto);
+            }
+
+            $file = $request->file('foto');
+            $foto = time() . "_" . $file->getClientOriginalName();
+            $save_db_foto = 'mastersiswa/' . $foto;
+
+            $dir = public_path('images/admin/mastersiswa');
+            $file->move($dir, $foto);
+
+            $validatedData['foto'] = $save_db_foto;
         }
 
         $siswa->update($validatedData);
@@ -143,11 +167,17 @@ class SiswaController extends Controller
         $projeks = $siswa->projeks;
         if ($projeks->count() > 0) {
             foreach ($projeks as $projek) {
-                if ($projek->foto != 'photo.jpg') Storage::delete($projek->foto);
+                if ($projek->foto != 'photo.jpg') {
+                    $old_foto = public_path('images/admin/' . $projek->foto);
+                    if (file_exists($old_foto)) unlink($old_foto);
+                };
             }
         }
 
-        if ($siswa->foto != 'default.jpg') Storage::delete($siswa->foto);
+        if ($siswa->foto != 'default.jpg') {
+            $old_foto = public_path('images/admin/' . $siswa->foto);
+            if (file_exists($old_foto)) unlink($old_foto);
+        };
         $siswa->delete();
 
         return redirect()->route('siswa.index')->with('success', '<strong>Horee</strong> , Data Siswa berhasil dihapus!!');

@@ -27,7 +27,7 @@
             <label for="foto" class="form-label d-block">Foto projek (max:2mb)</label>
             <div class="row justify-content-start align-items-center">
               <div class="col-lg-4 col-md-4 col-sm-5 col-12">
-                <img id="preview-image-before-upload" src="{{ asset('storage/photo.jpg') }}" alt="preview image" class="img-thumbnail mt-2 mb-3 w-100" data-toggle="modal" data-target="#modalFoto">
+                <img id="preview-image-before-upload" src="{{ asset('images/admin/photo.jpg') }}" alt="preview image" class="img-thumbnail mt-2 mb-3 w-100" data-toggle="modal" data-target="#modalFoto">
               </div>
               <div class="col-lg-5 col-md-5 col-sm-6 col-12 p-0">
                 <span>*review foto (klik untuk memperbesar)</span>

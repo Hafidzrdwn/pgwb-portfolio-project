@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="card-body text-center">
-        <div class="mx-auto rounded-circle" style="height: 200px; width: 200px; background: url({{ asset('storage/' . $siswa->foto) }}); background-size: cover; background-position: center center;"></div>
+        <div class="mx-auto rounded-circle" style="height: 200px; width: 200px; background: url({{ asset('images/admin/' . $siswa->foto) }}); background-size: cover; background-position: center center;"></div>
         <h4 class="text-dark font-weight-bold mt-3">{{ Str::title($siswa->nama) }}</h4>
         <p>Nisn : {{ $siswa->nisn }}</p>
         <p class="text-dark">@if($siswa->jenis_kelamin == "Laki-laki") <i class="fas fa-mars text-primary mr-1"></i> @else <i class="fas fa-venus text-danger mr-1"></i> @endif{{ $siswa->jenis_kelamin }}</p>
@@ -93,7 +93,7 @@
           <div class="col-md-6">
             <div class="card shadow mb-4 border">
               <div class="card-body">
-                <img src="{{ asset('storage/'. $projek->foto) }}" class="w-100 mb-3 rounded" alt="Foto Project">
+                <img src="{{ asset('images/admin/'. $projek->foto) }}" class="w-100 mb-3 rounded" alt="Foto Project">
                 <h5 class="text-dark">{{ Str::title($projek->nama) }}</h5>
                 <span class="badge badge-primary">{{ $projek->jenis }}</span>
                 <p class="mt-3">
