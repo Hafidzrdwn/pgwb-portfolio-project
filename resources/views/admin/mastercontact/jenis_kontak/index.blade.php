@@ -23,7 +23,7 @@
       </div>
       <div class="card-body">
         <div class="row justify-content-center align-items-center">
-          @foreach ($jenis_kontaks as $jk)
+          @forelse ($jenis_kontaks as $jk)
           <div class="col-md-4 mb-4">
             <a href="#" onclick="actionJenis(event, this, '{{ route('jenis_kontak.destroy', $jk->id) }}')" class="btn btn-light btn-icon-split">
               <span class="icon text-dark-600">
@@ -32,7 +32,9 @@
               <span class="text">{{ Str::title($jk->jenis_kontak) }}</span>
             </a>
           </div>
-          @endforeach
+          @empty
+          <p class="text-center m-0">Tidak ada data jenis kontak.</p>
+          @endforelse
         </div>
       </div>
     </div>
