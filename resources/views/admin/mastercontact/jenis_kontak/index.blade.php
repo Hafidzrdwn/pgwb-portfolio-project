@@ -16,47 +16,35 @@
 </div>
 @endif
 <div class="row">
-  <div class="col-lg-12">
+  <div class="col-lg-6">
     <div class="card">
-      <div class="card-header py-3 row align-items-center justify-content-between">
-        <div class="col-md-6">
-          <h6 class="m-0 font-weight-bold text-primary">Data Semua Jenis Kontak</h6>
-        </div>
-        <div class="col-md-6 text-right">
-          <button class="btn-tambah-jenis btn btn-success" data-toggle="modal" data-target="#modalCrud"><i class="fas fa-plus-circle mr-1"></i> Tambah Jenis Kontak</button>
-        </div>
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Data Semua Jenis Kontak</h6>
       </div>
       <div class="card-body">
-        <div class="table-responsive">
-          <table class="table w-100 table-striped table-bordered table-hover" id="dt">
-            <thead>
-              <tr class="text-nowrap">
-                <th>No</th>
-                <th>Nama</th>
-                <th>Icon</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($jenis_kontaks as $jk)
-              <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>
-                  <h6>{{ $jk->jenis_kontak }}</h6>
-                </td>
-                <td><i class="h3 fa fa-{{ $jk->jenis_kontak }}"></i></td>
-                <td>
-                  <a href="#" class="btn-edit-jenis btn btn-primary btn-circle mr-1"><i class="fas fa-edit"></i></a>
-                  <form action="{{ route('jenis_kontak.destroy', $jk->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah anda yakin untuk menghapus jenis kontak bernama {{ $jk->jenis_kontak }}??')">
-                    @method('DELETE')
-                    @csrf
-                    <button type="submit" class="btn btn-danger btn-circle"><i class="fas fa-trash"></i></button>
-                  </form>
-                </td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
+        <div class="row justify-content-center align-items-center">
+          @foreach ($jenis_kontaks as $jk)
+          <div class="col-md-4 mb-4">
+            <a href="#" onclick="actionJenis(event, this, '{{ route('jenis_kontak.destroy', $jk->id) }}')" class="btn btn-light btn-icon-split">
+              <span class="icon text-dark-600">
+                <i class="fab fa-{{ $jk->jenis_kontak }}"></i>
+              </span>
+              <span class="text">{{ Str::title($jk->jenis_kontak) }}</span>
+            </a>
+          </div>
+          @endforeach
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-dark">Action</h6>
+      </div>
+      <div class="card-body">
+        <button class="btn-tambah-jenis btn btn-success d-block mx-auto" data-toggle="modal" data-target="#modalCrud"><i class="fas fa-plus-circle mr-1"></i> Tambah Jenis Kontak</button>
+        <div class="action-jenis">
         </div>
       </div>
     </div>
@@ -102,8 +90,6 @@
       $('#modalCrud button[type="submit"]').attr('disabled', true);
     });
 
-
-
     // input jenis kontak
     $('#jenis_kontak').on('keyup', function() {
       if ($(this).val().trim()) {
@@ -132,10 +118,10 @@
       $('#modalCrud button[type="submit"]').attr('disabled', true);
     })
 
-    $('.btn-edit-jenis').click(function(e) {
+    window.editJenis = function(e, el) {
       e.preventDefault();
-      let jenis_kontak = $(this).parents('tr').find('td:nth-child(2) h6').text();
-      let id = $(this).parents('tr').find('td:nth-child(4) form').attr('action').split('/')[6];
+      let jenis_kontak = $(el).parents('.action-jenis').find('h5').text().toLowerCase();
+      let id = $(el).parents('.action-jenis').find('div.mt-4.text-center form').attr('action').split('/')[6];
 
       // show modal
       $('#modalCrud').modal('show');
@@ -153,7 +139,27 @@
       `);
       $('#jenis_kontak').val(jenis_kontak);
       $('#modalCrud button[type="submit"]').attr('disabled', false);
-    })
+    }
+
+
+    window.actionJenis = function(e, el, route) {
+      e.preventDefault();
+
+      const jenis = $(el).find('span.text').text();
+      const tempt = `
+        <h1 class="text-center mt-4" style="font-size:52px;"><i class="text-dark fab fa-${jenis.toLowerCase()}"></i></h1>
+        <h5 class="text-center font-weight-bold text-dark">${jenis}</h5>
+        <div class="mt-4 text-center">
+          <a href="#" onclick="editJenis(event, this)" class="btn btn-primary btn-circle mr-1"><i class="fas fa-edit"></i></a>
+          <form action="${route}" method="POST" class="d-inline" onsubmit="return confirm('Apakah anda yakin untuk menghapus jenis kontak bernama ${jenis} ??')">
+            @method('DELETE')
+            @csrf
+            <button type="submit" class="btn btn-danger btn-circle"><i class="fas fa-trash"></i></button>
+          </form>
+        </div>
+      `;
+      $('.action-jenis').html(tempt)
+    }
   });
 
 </script>
