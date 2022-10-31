@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JenisKontakController;
 use App\Http\Controllers\KontakController;
 use App\Http\Controllers\ProjekController;
 use App\Http\Controllers\SiswaController;
@@ -39,6 +40,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         Route::resource('projek', ProjekController::class);
         Route::get('projek/{projek}/detail', 'ProjekController@show_detail')->name('projek.detail');
         Route::resource('kontak', KontakController::class);
+        Route::resource('jenis_kontak', JenisKontakController::class);
     });
 });
 

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kontak;
-use App\Models\Siswa;
+use App\Models\JenisKontak;
 use Illuminate\Http\Request;
 
-class KontakController extends Controller
+class JenisKontakController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,8 @@ class KontakController extends Controller
      */
     public function index()
     {
-        $siswas = Siswa::with('kontaks')->paginate(4);
-        $links = self::getLinks();
-        return view('admin.mastercontact.index', compact('siswas', 'links'));
+        $jenis_kontaks = JenisKontak::all();
+        return view('admin.mastercontact.jenis_kontak.index', compact('jenis_kontaks'));
     }
 
     /**
@@ -38,6 +36,14 @@ class KontakController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'jenis_kontak' => 'required',
+        ]);
+
+        JenisKontak::create($request->all());
+
+        return redirect()->route('jenis_kontak.index')
+            ->with('success', '<strong>Jenis Kontak Baru</strong> berhasil ditambahkan!!');
     }
 
     /**
@@ -46,14 +52,9 @@ class KontakController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Siswa $kontak)
+    public function show($id)
     {
-        return response()->json($kontak->kontaks);
-        // return response()->json(Kontak::where('siswa_id', $id)->with('jenis_kontak')->get());
-        // $kontaks = $siswa->load('projeks', 'kontaks');
-        // $links = self::getLinks();
-        // // return response()->json($siswa);
-        // return view('admin.mastersiswa.show', compact('siswa', 'links'));
+        //
     }
 
     /**
@@ -74,9 +75,16 @@ class KontakController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, JenisKontak $jenis_kontak)
     {
-        //
+        $request->validate([
+            'jenis_kontak' => 'required',
+        ]);
+
+        $jenis_kontak->update($request->all());
+
+        return redirect()->route('jenis_kontak.index')
+            ->with('success', '<strong>Jenis Kontak</strong> berhasil diedit!!');
     }
 
     /**
@@ -85,8 +93,11 @@ class KontakController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(JenisKontak $jenis_kontak)
     {
-        //
+        $jenis_kontak->delete();
+
+        return redirect()->route('jenis_kontak.index')
+            ->with('success', '<strong>Jenis Kontak</strong> berhasil dihapus!!');
     }
 }

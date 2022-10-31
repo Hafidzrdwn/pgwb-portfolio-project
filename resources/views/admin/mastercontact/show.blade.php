@@ -1,5 +1,5 @@
 <div class="row justify-content-center align-items-center">
-  @forelse ($siswas[1]->kontaks as $kontak)
+  @forelse ($kontaks as $kontak)
   <div class="col-md-4 p-2 text-center">
     <a class="text-muted link-kontak" target="_blank" href="{{ $links[$kontak->jenis_kontak] . $kontak->pivot->deskripsi }}">
       <h2 class="m-0"><i class="fa fa-{{ $kontak->jenis_kontak }}"></i></h2>
