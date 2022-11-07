@@ -3,6 +3,18 @@
 @section('header', 'Master Kontak')
 
 @section('content')
+@if($msg = Session::get('success'))
+<div class="row">
+  <div class="col-md-12">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {!! $msg !!}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>
+@endif
 <div class="row pb-5">
   <div class="col-md-6">
     <div class="card">
@@ -28,7 +40,7 @@
                   <a href="#" onclick="showKontaks('{{ route('kontak.show', $siswa->id) }}', event)" class="btn-show-projeks btn btn-sm btn-primary btn-circle">
                     <i class="fas fa-phone"></i>
                   </a>
-                  <a href="{{ route('projek.create') }}?siswa={{ $siswa->id }}" class="btn btn-sm btn-success btn-circle">
+                  <a href="{{ route('kontak.create') }}?siswa={{ $siswa->id }}" class="btn btn-sm btn-success btn-circle">
                     <i class="fas fa-plus"></i>
                   </a>
                 </td>
@@ -68,7 +80,7 @@
         url: href
         , method: 'GET'
         , beforeSend: function() {
-          $('#projeks').html(
+          $('#kontaks').html(
             `
               <div class="text-center mt-3">
                 <div class="spinner-border text-primary" role="status">
@@ -82,8 +94,8 @@
           );
         }
         , success: function(data) {
-          console.log(data)
-          // $('#projeks').html(data)
+          $('#kontaks').html(data)
+          // console.log(data)
         }
       });
 

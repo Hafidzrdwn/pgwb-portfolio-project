@@ -18,6 +18,6 @@ class Siswa extends Model
 
     public function kontaks()
     {
-        return $this->belongsToMany(JenisKontak::class)->withPivot('deskripsi');
+        return $this->belongsToMany(JenisKontak::class)->withPivot('deskripsi', 'id');
     }
 }

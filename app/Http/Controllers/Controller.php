@@ -17,9 +17,12 @@ class Controller extends BaseController
                 'instagram' => 'https://www.instagram.com/',
                 'facebook' => 'https://www.facebook.com/',
                 'twitter' => 'https://www.twitter.com/',
-                'linkedin' => 'https://www.linkedin.com/',
+                'linkedin' => 'https://www.linkedin.com/in/',
                 'github' => 'https://www.github.com/',
                 'whatsapp' => 'https://wa.me/',
+                'telegram' => 'https://t.me/',
+                'youtube' => 'https://www.youtube.com/',
+                'tiktok' => 'https://www.tiktok.com/@',
             ];
     }
 }

@@ -15,4 +15,9 @@ class Kontak extends Model
     {
         return $this->belongsTo(JenisKontak::class);
     }
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class);
+    }
 }
