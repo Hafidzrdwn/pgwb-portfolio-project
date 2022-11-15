@@ -32,6 +32,11 @@ class ProjekController extends Controller
         'Desktop App',
     ];
 
+    public function __construct()
+    {
+        $this->middleware('admin', ['except' => ['index', 'show']]);
+    }
+
     public function index()
     {
         $siswas = Siswa::latest()->paginate(4);

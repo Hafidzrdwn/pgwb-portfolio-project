@@ -25,6 +25,11 @@ class SiswaController extends Controller
         'digits' => ':attribute harus diisi 10 digit cuy!',
     ];
 
+    public function __construct()
+    {
+        $this->middleware('admin', ['except' => ['index', 'show']]);
+    }
+
     public function index()
     {
         $siswas = Siswa::with('projeks', 'kontaks')->get();
